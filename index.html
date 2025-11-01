@@ -350,19 +350,213 @@
             background: rgba(160, 82, 45, 0.9);
         }
 
-        #videoCallToggle {
+        #voiceCallButton {
             position: absolute;
-            bottom: 90px;
-            left: 200px;
+            bottom: 160px;
+            left: 20px;
             padding: 10px 15px;
-            background: rgba(65, 105, 225, 0.8);
-            border: 3px solid #4169E1;
+            background: rgba(34, 139, 34, 0.8);
+            border: 3px solid #2d5016;
             border-radius: 8px;
             color: white;
             cursor: pointer;
             font-weight: bold;
             font-size: 14px;
             z-index: 14;
+            display: none;
+        }
+
+        #voiceCallButton:hover {
+            background: rgba(46, 184, 46, 0.9);
+        }
+
+        #voiceCallButton.active {
+            background: rgba(220, 20, 60, 0.8);
+            border-color: #8B0000;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        #videoCallModal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 700px;
+            background: rgba(20, 20, 20, 0.95);
+            border: 4px solid #654321;
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 30;
+            display: none;
+        }
+
+        #videoCallModal h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .video-player {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid #654321;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-player.speaking {
+            border-color: #00FF00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .video-avatar {
+            font-size: 48px;
+            margin-bottom: 5px;
+        }
+
+        .video-name {
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .video-status {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .status-muted {
+            color: #FF0000;
+        }
+
+        .status-talking {
+            color: #00FF00;
+        }
+
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .voice-btn {
+            padding: 12px 20px;
+            border: 2px solid #654321;
+            border-radius: 8px;
+            background: #8B4513;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .voice-btn:hover {
+            background: #A0522D;
+        }
+
+        .voice-btn.muted {
+            background: #DC143C;
+        }
+
+        .voice-btn.muted:hover {
+            background: #FF6347;
+        }
+
+        .participants-list {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .participant-item {
+            color: white;
+            padding: 5px;
+            margin: 3px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .participant-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00FF00;
+        }
+
+        .participant-indicator.offline {
+            background: #808080;
+        }
+
+        .chat-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .badge-admin {
+            background: #FF0000;
+            color: white;
+        }
+
+        .badge-vip {
+            background: #FFD700;
+            color: black;
+        }
+
+        .badge-player {
+            background: #4A90E2;
+            color: white;
+        }
+
+        #videoCallToggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            background: rgba(65, 105, 225, 0.8);
+            border: 3px solid #4169E1;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            z-index: 13;
             display: none;
         }
 
@@ -374,36 +568,37 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            width: 300px;
-            background: rgba(20, 20, 20, 0.95);
+            width: 220px;
+            max-width: 25vw;
+            background: rgba(20, 20, 20, 0.85);
             border: 3px solid #4169E1;
             border-radius: 10px;
-            padding: 15px;
+            padding: 10px;
             display: none;
             z-index: 16;
-            max-height: 80vh;
+            max-height: 60vh;
             overflow-y: auto;
         }
 
         #videoCallContainer h3 {
             color: #87CEEB;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-align: center;
-            font-size: 18px;
+            font-size: 14px;
         }
 
         .video-participant {
             background: rgba(40, 40, 40, 0.8);
             border: 2px solid #555;
             border-radius: 8px;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 8px;
+            margin: 8px 0;
             position: relative;
         }
 
         .video-preview {
             width: 100%;
-            height: 150px;
+            height: 80px;
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border-radius: 5px;
             display: flex;
@@ -436,22 +631,24 @@
             justify-content: space-between;
             align-items: center;
             color: white;
+            font-size: 11px;
         }
 
         .participant-name {
             font-weight: bold;
             color: #87CEEB;
+            font-size: 11px;
         }
 
         .participant-status {
             display: flex;
-            gap: 8px;
+            gap: 5px;
             align-items: center;
         }
 
         .status-indicator {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: #00FF00;
             animation: pulse 2s ease-in-out infinite;
@@ -466,13 +663,13 @@
             display: flex;
             gap: 2px;
             align-items: flex-end;
-            height: 20px;
+            height: 15px;
         }
 
         .audio-bar {
-            width: 3px;
+            width: 2px;
             background: #00FF00;
-            border-radius: 2px;
+            border-radius: 1px;
             animation: audioWave 0.8s ease-in-out infinite;
         }
 
@@ -489,20 +686,21 @@
 
         .call-controls {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 10px;
         }
 
         .call-btn {
-            padding: 8px 15px;
+            padding: 6px 10px;
             border: 2px solid #654321;
             border-radius: 5px;
             background: #8B4513;
             color: white;
             cursor: pointer;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
+            white-space: nowrap;
         }
 
         .call-btn:hover {
@@ -1482,6 +1680,60 @@
             addChatMessage('system', '👋 Hai lasciato la videochiamata');
             participants = [];
         }
+
+        function shareScreen() {
+            addChatMessage('system', '🖥️ Condivisione schermo attivata');
+            addChatMessage('server', '📢 ' + playerName + ' sta condividendo lo schermo!');
+        }
+
+        // Simulate random voice activity
+        setInterval(() => {
+            if (videoCallOpen && participants.length > 1) {
+                const randomParticipant = participants[Math.floor(Math.random() * (participants.length - 1)) + 1];
+                randomParticipant.speaking = Math.random() > 0.7;
+                if (randomParticipant.speaking) {
+                    setTimeout(() => {
+                        randomParticipant.speaking = false;
+                    }, 1500);
+                }
+            }
+        }, 3000);
+
+        // Simulate players joining/leaving
+        setInterval(() => {
+            if (videoCallOpen && Math.random() > 0.8) {
+                if (participants.length < 6 && Math.random() > 0.5) {
+                    // Someone joins
+                    const randomPlayer = NPC_PLAYERS[Math.floor(Math.random() * NPC_PLAYERS.length)];
+                    const exists = participants.find(p => p.name === randomPlayer.name);
+                    if (!exists) {
+                        participants.push({
+                            name: randomPlayer.name,
+                            avatar: getRandomAvatar(),
+                            speaking: false,
+                            muted: Math.random() > 0.7,
+                            videoOn: Math.random() > 0.5
+                        });
+                        addChatMessage('system', '✅ ' + randomPlayer.name + ' è entrato nella chiamata');
+                    }
+                } else if (participants.length > 2) {
+                    // Someone leaves
+                    const randomIndex = Math.floor(Math.random() * (participants.length - 1)) + 1;
+                    const leavingPlayer = participants[randomIndex];
+                    participants.splice(randomIndex, 1);
+                    addChatMessage('system', '👋 ' + leavingPlayer.name + ' ha lasciato la chiamata');
+                }
+                updateParticipantsList();
+            }
+        }, 15000);
+
+        // Quick access keys
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'KeyM' && videoCallOpen) {
+                e.preventDefault();
+                toggleMute();
+            }
+        });
 
         document.addEventListener('keydown', (e) => {
             if (e.code === 'KeyV' && !videoCallOpen) {
