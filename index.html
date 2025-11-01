@@ -350,6 +350,185 @@
             background: rgba(160, 82, 45, 0.9);
         }
 
+        #videoCallToggle {
+            position: absolute;
+            bottom: 90px;
+            left: 200px;
+            padding: 10px 15px;
+            background: rgba(65, 105, 225, 0.8);
+            border: 3px solid #4169E1;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 14;
+            display: none;
+        }
+
+        #videoCallToggle:hover {
+            background: rgba(70, 130, 255, 0.9);
+        }
+
+        #videoCallContainer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(20, 20, 20, 0.95);
+            border: 3px solid #4169E1;
+            border-radius: 10px;
+            padding: 15px;
+            display: none;
+            z-index: 16;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        #videoCallContainer h3 {
+            color: #87CEEB;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .video-participant {
+            background: rgba(40, 40, 40, 0.8);
+            border: 2px solid #555;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        .video-preview {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(100, 150, 255, 0.1), transparent);
+            animation: videoGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes videoGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .participant-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .participant-name {
+            font-weight: bold;
+            color: #87CEEB;
+        }
+
+        .participant-status {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00FF00;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .audio-bars {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 20px;
+        }
+
+        .audio-bar {
+            width: 3px;
+            background: #00FF00;
+            border-radius: 2px;
+            animation: audioWave 0.8s ease-in-out infinite;
+        }
+
+        .audio-bar:nth-child(1) { animation-delay: 0s; height: 40%; }
+        .audio-bar:nth-child(2) { animation-delay: 0.1s; height: 60%; }
+        .audio-bar:nth-child(3) { animation-delay: 0.2s; height: 80%; }
+        .audio-bar:nth-child(4) { animation-delay: 0.3s; height: 60%; }
+        .audio-bar:nth-child(5) { animation-delay: 0.4s; height: 40%; }
+
+        @keyframes audioWave {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
+        }
+
+        .call-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .call-btn {
+            padding: 8px 15px;
+            border: 2px solid #654321;
+            border-radius: 5px;
+            background: #8B4513;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .call-btn:hover {
+            background: #A0522D;
+        }
+
+        .call-btn.danger {
+            background: #DC143C;
+            border-color: #8B0000;
+        }
+
+        .call-btn.danger:hover {
+            background: #FF0000;
+        }
+
+        .video-effect {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            color: #FFD700;
+        }
+
         .chat-badge {
             display: inline-block;
             padding: 2px 6px;
@@ -447,12 +626,23 @@
         </div>
 
         <button id="chatToggle" onclick="toggleChat()">💬 Chat</button>
+        <button id="videoCallToggle" onclick="toggleVideoCall()">📹 Videochiamata</button>
 
         <div id="chatContainer">
             <div id="chatMessages"></div>
             <div id="chatInput">
                 <input type="text" id="chatInputField" placeholder="Scrivi un messaggio..." maxlength="100" />
                 <button onclick="sendMessage()">📤</button>
+            </div>
+        </div>
+
+        <div id="videoCallContainer">
+            <h3>📹 Videochiamata di Squadra</h3>
+            <div id="participantsList"></div>
+            <div class="call-controls">
+                <button class="call-btn" onclick="toggleMute()">🎤 Mute/Unmute</button>
+                <button class="call-btn" onclick="toggleVideo()">📹 Video On/Off</button>
+                <button class="call-btn danger" onclick="leaveCall()">📞 Esci</button>
             </div>
         </div>
 
@@ -575,6 +765,12 @@
         let lastChatTime = 0;
         const playerName = 'CaptainCat_' + Math.floor(Math.random() * 1000);
         
+        // Video call system
+        let videoCallOpen = false;
+        let isMuted = false;
+        let isVideoOn = true;
+        let participants = [];
+        
         const NPC_PLAYERS = [
             { name: 'SteveBuilder', type: 'player', messages: ['Qualcuno ha del ferro?', 'Sto costruendo una casa!', 'Chi vuole fare team?'] },
             { name: 'DiamondHunter', type: 'vip', messages: ['Ho trovato diamanti! 💎', 'Livello 45 raggiunto!', 'Vendo picconi enchantati'] },
@@ -634,10 +830,13 @@
                 document.getElementById('ui').style.display = 'block';
                 document.getElementById('hotbar').style.display = 'flex';
                 document.getElementById('controls').style.display = 'flex';
+                document.getElementById('chatToggle').style.display = 'block';
+                document.getElementById('videoCallToggle').style.display = 'block';
                 
                 generateWorld();
                 setupEventListeners();
                 updateHotbar();
+                initChat();
                 gameState.gameRunning = true;
                 gameLoop();
             }, 2000);
@@ -1076,6 +1275,219 @@
         // Key for eating
         document.addEventListener('keydown', (e) => {
             if (e.code === 'KeyF') eatFood();
+        });
+
+        // ===== CHAT SYSTEM =====
+        function initChat() {
+            addChatMessage('system', '🌟 Benvenuto in CaptainCat Craft!');
+            addChatMessage('system', `📛 Il tuo nome: ${playerName}`);
+            addChatMessage('server', '💬 Premi T per aprire la chat');
+            addChatMessage('server', '📹 Premi V per la videochiamata');
+            
+            // Simulate other players joining
+            setTimeout(() => {
+                const randomPlayer = NPC_PLAYERS[Math.floor(Math.random() * NPC_PLAYERS.length)];
+                addChatMessage('system', `➕ ${randomPlayer.name} si è unito al server!`);
+            }, 5000);
+            
+            // Random NPC messages
+            setInterval(() => {
+                if (Math.random() < 0.3) {
+                    const npc = NPC_PLAYERS[Math.floor(Math.random() * NPC_PLAYERS.length)];
+                    const message = npc.messages[Math.floor(Math.random() * npc.messages.length)];
+                    addChatMessage(npc.type, `${npc.name}: ${message}`);
+                }
+            }, 15000);
+        }
+
+        function addChatMessage(type, text) {
+            chatMessages.push({ type, text, time: Date.now() });
+            if (chatMessages.length > 50) chatMessages.shift();
+            
+            const messagesDiv = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-message chat-${type}`;
+            
+            if (type === 'player' || type === 'vip' || type === 'admin') {
+                const badge = type === 'admin' ? 'badge-admin' : type === 'vip' ? 'badge-vip' : 'badge-player';
+                const badgeText = type === 'admin' ? 'ADMIN' : type === 'vip' ? 'VIP' : 'PLAYER';
+                msgDiv.innerHTML = `<span class="chat-badge ${badge}">${badgeText}</span>${text}`;
+            } else {
+                msgDiv.textContent = text;
+            }
+            
+            messagesDiv.appendChild(msgDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            document.getElementById('chatContainer').style.display = chatOpen ? 'block' : 'none';
+            if (chatOpen) {
+                document.getElementById('chatInputField').focus();
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInputField');
+            const text = input.value.trim();
+            
+            if (text.length === 0) return;
+            
+            addChatMessage('player', `${playerName}: ${text}`);
+            input.value = '';
+            
+            // Simulate responses
+            setTimeout(() => {
+                const responses = [
+                    'Bella!', 'GG!', 'Interessante!', 'Sono d\'accordo', 
+                    'LOL 😂', 'Ottima idea!', 'Chi vuole fare team?', 'Qualcuno mi aiuta?'
+                ];
+                const npc = NPC_PLAYERS[Math.floor(Math.random() * NPC_PLAYERS.length)];
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                addChatMessage(npc.type, `${npc.name}: ${response}`);
+            }, 2000 + Math.random() * 3000);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'KeyT' && !chatOpen) {
+                e.preventDefault();
+                toggleChat();
+            } else if (e.code === 'Enter' && chatOpen) {
+                e.preventDefault();
+                sendMessage();
+            } else if (e.code === 'Escape' && chatOpen) {
+                toggleChat();
+            }
+        });
+
+        // ===== VIDEO CALL SYSTEM =====
+        function initVideoCall() {
+            // Create participants (3-5 random players)
+            const numParticipants = 3 + Math.floor(Math.random() * 3);
+            participants = [];
+            
+            for (let i = 0; i < numParticipants; i++) {
+                const npc = NPC_PLAYERS[Math.floor(Math.random() * NPC_PLAYERS.length)];
+                if (!participants.find(p => p.name === npc.name)) {
+                    participants.push({
+                        name: npc.name,
+                        type: npc.type,
+                        avatar: getRandomAvatar(),
+                        speaking: false,
+                        videoOn: true
+                    });
+                }
+            }
+            
+            // Add yourself
+            participants.unshift({
+                name: playerName + ' (Tu)',
+                type: 'player',
+                avatar: '🐱',
+                speaking: false,
+                videoOn: isVideoOn
+            });
+            
+            updateParticipantsList();
+            
+            // Simulate random speaking
+            setInterval(() => {
+                if (videoCallOpen) {
+                    participants.forEach((p, i) => {
+                        if (i !== 0) { // Not yourself
+                            p.speaking = Math.random() < 0.2;
+                        }
+                    });
+                    updateParticipantsList();
+                }
+            }, 2000);
+        }
+
+        function getRandomAvatar() {
+            const avatars = ['👨', '👩', '🧑', '👴', '👵', '🧔', '👨‍🦰', '👩‍🦰', '👨‍🦱', '👩‍🦱', '🦸', '🧙'];
+            return avatars[Math.floor(Math.random() * avatars.length)];
+        }
+
+        function toggleVideoCall() {
+            videoCallOpen = !videoCallOpen;
+            document.getElementById('videoCallContainer').style.display = videoCallOpen ? 'block' : 'none';
+            
+            if (videoCallOpen && participants.length === 0) {
+                initVideoCall();
+                addChatMessage('system', '📹 Sei entrato nella videochiamata di squadra!');
+            }
+        }
+
+        function updateParticipantsList() {
+            const container = document.getElementById('participantsList');
+            container.innerHTML = '';
+            
+            participants.forEach((participant, index) => {
+                const div = document.createElement('div');
+                div.className = 'video-participant';
+                
+                const videoQuality = ['HD 1080p', '4K', '720p', 'HD'][Math.floor(Math.random() * 4)];
+                
+                div.innerHTML = `
+                    <div class="video-preview">
+                        <div style="font-size: 60px; z-index: 1;">${participant.avatar}</div>
+                        ${participant.videoOn ? `<div class="video-effect">${videoQuality}</div>` : ''}
+                        ${!participant.videoOn ? '<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; color: white; font-size: 16px;">📹 Video Off</div>' : ''}
+                    </div>
+                    <div class="participant-info">
+                        <div>
+                            <div class="participant-name">${participant.name}</div>
+                            <small style="color: #888;">${participant.type === 'admin' ? '👑 Admin' : participant.type === 'vip' ? '⭐ VIP' : '👤 Player'}</small>
+                        </div>
+                        <div class="participant-status">
+                            <div class="status-indicator"></div>
+                            ${participant.speaking ? `
+                                <div class="audio-bars">
+                                    <div class="audio-bar"></div>
+                                    <div class="audio-bar"></div>
+                                    <div class="audio-bar"></div>
+                                    <div class="audio-bar"></div>
+                                    <div class="audio-bar"></div>
+                                </div>
+                            ` : '<span style="font-size: 11px; color: #888;">🔇</span>'}
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(div);
+            });
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            if (participants.length > 0) {
+                participants[0].speaking = !isMuted;
+            }
+            addChatMessage('system', isMuted ? '🔇 Microfono disattivato' : '🎤 Microfono attivato');
+        }
+
+        function toggleVideo() {
+            isVideoOn = !isVideoOn;
+            if (participants.length > 0) {
+                participants[0].videoOn = isVideoOn;
+                updateParticipantsList();
+            }
+            addChatMessage('system', isVideoOn ? '📹 Video attivato' : '📹 Video disattivato');
+        }
+
+        function leaveCall() {
+            videoCallOpen = false;
+            document.getElementById('videoCallContainer').style.display = 'none';
+            addChatMessage('system', '👋 Hai lasciato la videochiamata');
+            participants = [];
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'KeyV' && !videoCallOpen) {
+                e.preventDefault();
+                toggleVideoCall();
+            }
         });
 
         initGame();
